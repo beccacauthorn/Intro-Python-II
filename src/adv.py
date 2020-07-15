@@ -1,4 +1,5 @@
 from room import Room
+from player import Player
 
 # Declare all the rooms
 
@@ -38,14 +39,42 @@ room['treasure'].s_to = room['narrow']
 #
 
 # Make a new player object that is currently in the 'outside' room.
+player = Player("Wizard", room['outside'])
 
 # Write a loop that:
-#
-# * Prints the current room name
-# * Prints the current description (the textwrap module might be useful here).
-# * Waits for user input and decides what to do.
-#
-# If the user enters a cardinal direction, attempt to move to the room there.
-# Print an error message if the movement isn't allowed.
-#
-# If the user enters "q", quit the game.
+while True:
+    # * Prints the current room name
+    print(player.current_room.name)
+    # * Prints the current description (the textwrap module might be useful here).
+    print(player.current_room.desc)
+    # * Waits for user input and decides what to do.
+    command = input("What do you want to do? ")
+    #
+    # If the user enters a cardinal direction, attempt to move to the room there.
+    # Print an error message if the movement isn't allowed.
+    if command == "n":
+        # move north if possible
+        if player.current_room.n_to is None:
+            print("There is nothing to the North.")
+        else:
+            player.current_room = player.current_room.n_to
+    elif command == "s":
+        if player.current_room.s_to is None:
+            print("There is nothing to the South.")
+        else:
+            player.current_room = player.current_room.s_to
+    elif command == "e":
+        if player.current_room.e_to is None:
+            print("There is nothing to the East.")
+        else:
+            player.current_room = player.current_room.e_to
+    elif command == "w":
+        if player.current_room.w_to is None:
+            print("There is nothing to the West.")
+        else:
+            player.current_room = player.current_room.n_to
+    # If the user enters "q", quit the game.
+    elif command == "q":
+        break
+    else:
+        print("Invalid command")
